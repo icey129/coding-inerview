@@ -1,0 +1,70 @@
+http://www.cnblogs.com/schaepher/p/5561193.html
+
+workspace, stage, local repository, remote repository(github)
+一、本地Git使用：
+	打开命令行（cmd）或者在想要创建repository的地方右键鼠标并点击 Git Bash Here 打开窗口。
+	1. 新仓库->初始化
+		运行 git init 初始化仓库，创建出一个隐藏文件夹.git。
+	2. 文件的添加和提交
+		创建文件，使用git status查看变化，提示Untracked files, 使用git add <file>加入文件
+		添加文件：git add -A
+		提交文件：git commit -m "提交信息"
+		查看日志：git log
+	3. 文件的修改
+		查看文件变化：git diff
+		撤销更改：git checkout --
+		添加：git add -A
+		提交：git commit -m "提交信息"
+	4. 版本回退
+		git reset --hard 1df0573(版本号前7位)
+		--hard会删除新提交的
+		回到最新版：git reflog 可查看最新版的版本号
+		再次reset
+	5. 清除未追踪的文件
+	通常在reset或者pull（后面会讲）之前要做两件事：
+		将新添加且为追踪的文件删除掉（比如编译程序后所产生的文件）
+		已追踪的文件已有修改，但又不需要这些修改，则将它们还原
+	删除新加的文件：
+		使用 git clean -xf 删除当前目录下所有没有track过的文件
+		git rm 'filename'
+	6. git status中文乱码问题
+		显示为中文：git config --global core.quotepath false
+		再使用 git status
+二、本地git与GitHub连接
+	1) 本地git与GitHub连接
+		1. 注册github账号
+		2. 本地配置用户名和邮箱如果已经设置好，跳过该步）：
+			git config --global user.name "你的用户名"
+			git config --global user.email "你的邮箱"
+			
+			或者在config文件里改，位置在 C:\Users\你的用户名\.gitconfig 。
+		3. 生成ssh key
+			ssh-keygen -t rsa -C "你的邮箱"，它会有三次等待你输入，直接回车即可。
+			将生成的ssh key复制到剪贴板，执行 clip < ~/.ssh/id_rsa.pub （或者到提示的路径里去打开文件并复制）：
+		4. 打开GitHub，进入Settings
+			点击左边的 SSH and GPG keys, 将ssh key粘贴到右边的Key里面。Title随便命名即可。
+			点击下面的 Add SSH key 就添加成功了
+			测试一下吧，执行 ssh -T git@github.com
+			
+			注：
+				对于 oschina 的 “码云” ，执行 ssh -T git@git.oschina.net
+				对于 coding 的 “码市” ，执行 ssh -T git@git.coding.net
+	
+	2) 	创建远程仓库与本地关联
+		1. 在GitHub上 New respository
+		2. 将远程仓库和本地仓库关联起来
+			先到Github上复制远程仓库的SSH地址：
+			Clone or download
+			有两种方式可以关联，一种是SSH，一种是HTTPS。由于HTTPS比较慢，所以推荐使用SSH。
+			注意SSH的地址格式是这样开头的： git@github.com
+			运行 git remote add origin 你复制的地址
+			
+			如果你在创建 repository 的时候，加入了 README.md 或者 LICENSE ，那么 github 会拒绝你的 push 。
+			你需要先执行 git pull origin master。
+			执行 git push -u origin master 将本地仓库上传至Github的仓库并进行关联
+			
+			关联已经完成！
+			以后想在commit后同步到Github上，只要直接执行 git push 就行啦：
+		
+		
+		
